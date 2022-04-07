@@ -2,7 +2,7 @@ provider "cloudflare" {
 }
 
 resource "cloudflare_zone" "njulug-org" {
-  zone   = "njulug.org"
+  zone = "njulug.org"
 }
 
 # ttl = 1 for automatic
@@ -23,7 +23,7 @@ resource "cloudflare_page_rule" "njulug_to_github" {
   priority = 1
   status   = "active"
   target   = "njulug.org/"
-  zone_id = cloudflare_zone.njulug-org.id
+  zone_id  = cloudflare_zone.njulug-org.id
   actions {
     forwarding_url {
       status_code = 302
