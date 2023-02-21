@@ -1,8 +1,13 @@
 provider "cloudflare" {
 }
 
+variable "cloudflare_account_id" {
+  type = string
+}
+
 resource "cloudflare_zone" "njulug-org" {
-  zone = "njulug.org"
+  account_id = var.cloudflare_account_id
+  zone       = "njulug.org"
 }
 
 # ttl = 1 for automatic
