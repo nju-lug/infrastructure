@@ -48,43 +48,52 @@ resource "cloudflare_record" "blogroll" {
   zone_id = cloudflare_zone.njulug-org.id
 }
 
-# cloudflare email routing
+# email routing
 
-resource "cloudflare_record" "mx70" {
-  name     = "njulug.org"
-  priority = 70
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  value    = "amir.mx.cloudflare.net"
-  zone_id  = cloudflare_zone.njulug-org.id
-}
-
-resource "cloudflare_record" "mx38" {
-  name     = "njulug.org"
-  priority = 38
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  value    = "linda.mx.cloudflare.net"
-  zone_id  = cloudflare_zone.njulug-org.id
-}
-
-resource "cloudflare_record" "mx32" {
-  name     = "njulug.org"
-  priority = 32
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  value    = "isaac.mx.cloudflare.net"
-  zone_id  = cloudflare_zone.njulug-org.id
-}
-
-resource "cloudflare_record" "spf" {
-  name    = "njulug.org"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
+resource "cloudflare_email_routing_settings" "njulug" {
   zone_id = cloudflare_zone.njulug-org.id
+  enabled = true
+}
+
+resource "cloudflare_email_routing_rule" "postmaster" {
+  zone_id = cloudflare_zone.njulug-org.id
+  name    = "postmaster"
+  enabled = true
+  matcher {
+    type  = "literal"
+    field = "to"
+    value = "postmaster@li7g.com"
+  }
+  action {
+    type  = "forward"
+    value = ["lin.yinfeng@outlook.com"]
+  }
+}
+
+resource "cloudflare_email_routing_rule" "admin" {
+  zone_id = cloudflare_zone.njulug-org.id
+  name    = "admin"
+  enabled = true
+  matcher {
+    type  = "literal"
+    field = "to"
+    value = "admin@li7g.com"
+  }
+  action {
+    type  = "forward"
+    value = ["lin.yinfeng@outlook.com"]
+  }
+}
+
+resource "cloudflare_email_routing_catch_all" "li7g" {
+  zone_id = cloudflare_zone.njulug-org.id
+  name    = "catch all"
+  enabled = true
+  matcher {
+    type = "all"
+  }
+  action {
+    type  = "drop"
+    value = []
+  }
 }
