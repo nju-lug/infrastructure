@@ -62,7 +62,7 @@ resource "cloudflare_email_routing_rule" "postmaster" {
   matcher {
     type  = "literal"
     field = "to"
-    value = "postmaster@li7g.com"
+    value = "postmaster@njulug.org"
   }
   action {
     type  = "forward"
@@ -77,7 +77,7 @@ resource "cloudflare_email_routing_rule" "admin" {
   matcher {
     type  = "literal"
     field = "to"
-    value = "admin@li7g.com"
+    value = "admin@njulug.org"
   }
   action {
     type  = "forward"
@@ -85,7 +85,7 @@ resource "cloudflare_email_routing_rule" "admin" {
   }
 }
 
-resource "cloudflare_email_routing_catch_all" "li7g" {
+resource "cloudflare_email_routing_catch_all" "njulug" {
   zone_id = cloudflare_zone.njulug-org.id
   name    = "catch all"
   enabled = true
